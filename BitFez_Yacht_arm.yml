@@ -1,0 +1,60 @@
+---
+- type: 1
+  title: "Bitwarden RS"
+  name: bitwardenrs
+  description: "This is a Bitwarden server API implementation written in Rust compatible with upstream Bitwarden clients*, perfect for self-hosted deployment where running the official resource-heavy service might not be ideal.."
+  note: "This project is not associated with the Bitwarden project nor 8bit Solutions LLC."
+  logo: "https://raw.githubusercontent.com/SelfhostedPro/selfhosted_templates/master/Images/bitwarden.png"
+  image: "bitwardenrs/server:latest"
+  categories:
+    - Other
+    - Tools
+  platform: linux
+  restart_policy: unless-stopped
+  ports:
+    - WebUI: ":80/tcp"
+  volumes:
+    - container: /config
+      bind: "!config/Bitwarden-rs"
+      
+  - type: 1
+  title: Pi-Hole
+  name: pihole
+  description: "A Linux network-level advertisement and Internet tracker blocking application which acts as a DNS sinkhole."
+  logo: "https://raw.githubusercontent.com/SelfhostedPro/selfhosted_templates/master/Images/pihole.png"
+  image: "pihole/pihole:latest"
+  categories:
+    - Other
+    - Tools
+  platform: linux
+  restart_policy: unless-stopped
+  ports:
+    - DNS TCP: "53:53/tcp"
+    - DNS UDP: "53:53/udp"
+    - DHCP: "67:67/udp"
+    - WebUI: "1010:80/tcp"
+    - HTTPS WebUI: "4443:443/tcp"
+  volumes:
+    - container: /etc/pihole
+      bind: "!config/PiHole"
+    - container: /etc/dnsmasq.d
+      bind: "!config/PiHole/DNS"
+  note: "When the installation is complete, navigate to your.ip.goes.here:1010/admin. Follow the article <a href='https://medium.com/@niktrix/getting-rid-of-systemd-resolved-consuming-port-53-605f0234f32f'>here</a> if you run into issues binding to port 53."
+  
+  - type: 1
+  title: "Python Slim"
+  name: Python 3.8
+  description: "A Python Dev environment for Docker Containers"
+  note: "this is very much in testing"
+  logo: "https://www.python.org/static/community_logos/python-powered-h-140x182.png"
+  image: "bitwardenrs/server:latest"
+  categories:
+    - Other
+    - Tools
+  platform: linux
+  restart_policy: unless-stopped
+  ports:
+    - WebUI: ":80/tcp"
+  volumes:
+    - container: /config
+      bind: "!config/Bitwarden-rs" 
